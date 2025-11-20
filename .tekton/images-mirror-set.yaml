@@ -1,10 +1,22 @@
 ---
-apiVersion: operator.openshift.io/v1alpha1
+apiVersion: config.openshift.io/v1
 kind: ImageDigestMirrorSet
 metadata:
-  name: cnv-mirrorset
+  name: dokimi-mirrorset
 spec:
   imageDigestMirrors:
   - mirrors:
-    - brew.registry.redhat.io
-    source: registry.redhat.io
+    - brew.registry.redhat.io/container-native-virtualization
+    source: registry.redhat.io/container-native-virtualization
+  - mirrors:
+    - brew.registry.redhat.io/container-native-virtualization/aaq-controller-rhel9
+    - brew.registry.redhat.io/rh-osbs/container-native-virtualization-aaq-controller-rhel9
+    source: registry.redhat.io/container-native-virtualization/aaq-controller-rhel9
+  - mirrors:
+    - brew.registry.redhat.io/container-native-virtualization/aaq-operator-rhel9
+    - brew.registry.redhat.io/rh-osbs/container-native-virtualization-aaq-operator-rhel9
+    source: registry.redhat.io/container-native-virtualization/aaq-operator-rhel9
+  - mirrors:
+    - brew.registry.redhat.io/container-native-virtualization/aaq-server-rhel9
+    - brew.registry.redhat.io/rh-osbs/container-native-virtualization-aaq-server-rhel9
+    source: registry.redhat.io/container-native-virtualization/aaq-server-rhel9

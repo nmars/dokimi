@@ -7,9 +7,9 @@ metadata:
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
-    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "main" && ( "fbc/v4.20/***".pathChanged() || ".tekton/dokimi-fbc-v4-20-push.yaml".pathChanged()
-      )
+    pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch == "main" &&
+      ( "fbc/v4.20/***".pathChanged() || ".tekton/dokimi-fbc-v4-20-push.yaml".pathChanged() ||
+        ".tekton/images-mirror-set.yaml".pathChanged() )
   creationTimestamp: null
   labels:
     appstudio.openshift.io/application: dokimi
@@ -391,13 +391,17 @@ spec:
       - build-image-index
       taskRef:
         params:
+        - name: url
+          value: https://github.com/nmars/build-definitions.git
+        - name: revision
+          value: KONFLUX-6945-fips-tasks
+        - name: pathInRepo
+          value: task/fbc-fips-check-oci-ta/0.1/fbc-fips-check-oci-ta.yaml
         - name: name
           value: fbc-fips-check-oci-ta
-        - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-fbc-fips-check-oci-ta:0.1@sha256:3be168cd0ccd495c6bebe752bcd85d3947edadc0eb645fb60a125933dfedaef1
         - name: kind
           value: task
-        resolver: bundles
+        resolver: git
       when:
       - input: $(params.skip-checks)
         operator: in
