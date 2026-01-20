@@ -395,7 +395,7 @@ spec:
       taskRef:
         params:
         - name: url
-          value: https://github.com/nmars/build-definitions.git
+          value: https://github.com/konflux-ci/build-definitions.git
         - name: revision
           value: main
         - name: pathInRepo
