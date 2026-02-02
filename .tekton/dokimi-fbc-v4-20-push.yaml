@@ -24,7 +24,7 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads/nmarsell-tenant/dokimi-fbc-v4-20:{{revision}}
+    value: quay.io/redhat-user-workloads-stage/nmarsell-tenant/dokimi-fbc-v4-20:{{revision}}
   - name: build-platforms
     value:
     - linux/x86_64
