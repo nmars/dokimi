@@ -1,4 +1,4 @@
 channel: nightly
-hco-bundle-url: brew.registry.redhat.io/rh-osbs/container-native-virtualization-hco-bundle-registry:v4.16.32.rhel9-26
-hco-bundle-version: v4.16.32.rhel9-26
-image: registry.redhat.io/container-native-virtualization/hco-bundle-registry-rhel9@sha256:6d3d8d5e9a01c74f1b4b969b86f766ff991980409b2bf175ad8829eb6c761830
+hco-bundle-url: quay.io/openshift-virtualization/konflux-builds/v4-16/hco-bundle-registry-rhel9:v4.16.32.rhel9-43
+hco-bundle-version: v4.16.32.rhel9-43
+image: registry.redhat.io/container-native-virtualization/hco-bundle-registry-rhel9@sha256:52c06edd89e2645cc09f1217b8618fd5d536a9ae98a60701d4e7fede1fa49dd9
