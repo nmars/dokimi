@@ -395,9 +395,9 @@ spec:
       taskRef:
         params:
         - name: url
-          value: https://github.com/nmars/build-definitions.git
+          value: https://github.com/nmars/build-definitions
         - name: revision
-          value: main
+          value: EC-1694-fbc-fips-exemption
         - name: token
           value: builddefs-fork
         - name: tokenKey
