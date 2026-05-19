@@ -11,7 +11,6 @@ metadata:
     pipelinesascode.tekton.dev/on-cel-expression: event == "pull_request" && target_branch
       == "main" && ( "fbc/v5.0/***".pathChanged() || ".tekton/dokimi-fbc-v5-0-pull-request.yaml".pathChanged()
       )
-  creationTimestamp: null
   labels:
     appstudio.openshift.io/application: dokimi-fbc-v5-0
     appstudio.openshift.io/component: dokimi-fbc-v5-0
@@ -90,6 +89,14 @@ spec:
     - default: "false"
       description: Enable cache proxy configuration
       name: enable-cache-proxy
+    - default: "true"
+      description: Use the package registry proxy when prefetching dependencies
+      name: enable-package-registry-proxy
+    - default: .
+      description: Target directories in component's source code to scan with SAST
+        tools. Multiple values should be separated with commas.
+      name: sast-target-dirs
+      type: string
     - default: []
       description: Array of --build-arg values ("arg=value" strings) for buildah
       name: build-args
@@ -104,10 +111,6 @@ spec:
         set of values is determined by the configuration of the multi-platform-controller.
       name: build-platforms
       type: array
-    - name: enable-package-registry-proxy
-      default: 'true'
-      description: Use the package registry proxy when prefetching dependencies
-      type: string
     results:
     - description: ""
       name: IMAGE_URL
@@ -180,7 +183,7 @@ spec:
         - name: name
           value: run-opm-command-oci-ta
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-run-opm-command-oci-ta:0.1@sha256:c79858b867713e44927438f6193c49004bf40bfd9248682f20c5a83ea2a9d2f1
+          value: quay.io/konflux-ci/tekton-catalog/task-run-opm-command-oci-ta:0.1@sha256:6a7c758802fd253735b15174c4e7ffffb6e271969adfddb3a083935986845166
         - name: kind
           value: task
         resolver: bundles
@@ -188,14 +191,14 @@ spec:
       params:
       - name: input
         value: $(params.prefetch-input)
+      - name: enable-package-registry-proxy
+        value: $(params.enable-package-registry-proxy)
       - name: SOURCE_ARTIFACT
         value: $(tasks.run-opm-command.results.SOURCE_ARTIFACT)
       - name: ociStorage
         value: $(params.output-image).prefetch
       - name: ociArtifactExpiresAfter
         value: $(params.image-expires-after)
-      - name: enable-package-registry-proxy
-        value: $(params.enable-package-registry-proxy)
       runAfter:
       - run-opm-command
       taskRef:
@@ -277,7 +280,7 @@ spec:
         - name: name
           value: build-image-index
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-build-image-index:0.3@sha256:550afde50349e22ec11191ea0db9a49395ab46fef4e8317d820b6e946677ebeb
+          value: quay.io/konflux-ci/tekton-catalog/task-build-image-index:0.3@sha256:b33bfa8dc27dbf459f0779598ba45dcaa490bcc9f8efe1652bcf360ec8cb5582
         - name: kind
           value: task
         resolver: bundles
@@ -333,7 +336,7 @@ spec:
         - name: name
           value: validate-fbc
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-validate-fbc:0.1@sha256:291cbcce7d965831dd5027caad5f47ac4146b6fac0a51358f2ad64603a008436
+          value: quay.io/konflux-ci/tekton-catalog/task-validate-fbc:0.1@sha256:d1b92157be81f58facc413ff15ae16dcedb01ada0ad8c72c7d759e818ce51083
         - name: kind
           value: task
         resolver: bundles
@@ -359,7 +362,7 @@ spec:
         - name: name
           value: fbc-target-index-pruning-check
         - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-fbc-target-index-pruning-check:0.1@sha256:fcc6f1b21c12625ba5e157556bf7bafd03486cb265fe5e761cf352afb5d1adf1
+          value: quay.io/konflux-ci/tekton-catalog/task-fbc-target-index-pruning-check:0.1@sha256:0fb7feb722250a0f77e5d9d7b4e2536ec85ff4fc41d78378bbb84304cb7959be
         - name: kind
           value: task
         resolver: bundles
@@ -380,21 +383,13 @@ spec:
       - build-image-index
       taskRef:
         params:
-        - name: url
-          value: https://github.com/nmars/build-definitions.git
-        - name: revision
-          value: bump-fips-tasks
-        - name: token
-          value: builddefs-fork
-        - name: tokenKey
-          value: password
-        - name: pathInRepo
-          value: task/fbc-fips-check-oci-ta/0.1/fbc-fips-check-oci-ta.yaml
         - name: name
           value: fbc-fips-check-oci-ta
+        - name: bundle
+          value: quay.io/konflux-ci/tekton-catalog/task-fbc-fips-check-oci-ta:0.1@sha256:3017397d39d8667f1371a415feadff3d08b5bcc272e396818082b767cbb4f1db
         - name: kind
           value: task
-        resolver: git
+        resolver: bundles
       when:
       - input: $(params.skip-checks)
         operator: in
