@@ -8,13 +8,13 @@ metadata:
     pipelinesascode.tekton.dev/cancel-in-progress: "false"
     pipelinesascode.tekton.dev/max-keep-runs: "3"
     pipelinesascode.tekton.dev/on-cel-expression: event == "push" && target_branch
-      == "main" && ( "fbc/v5.0/***".pathChanged() || ".tekton/dokimi-fbc-v5-0-push.yaml".pathChanged()
+      == "main" && ( "fbc/v4.22/***".pathChanged() || ".tekton/dokimi-fbc-v4-22-push.yaml".pathChanged()
       )
   labels:
-    appstudio.openshift.io/application: dokimi-fbc-v5-0
-    appstudio.openshift.io/component: dokimi-fbc-v5-0
+    appstudio.openshift.io/application: dokimi-fbc-v4-22
+    appstudio.openshift.io/component: dokimi-fbc-v4-22
     pipelines.appstudio.openshift.io/type: build
-  name: dokimi-fbc-v5-0-on-push
+  name: dokimi-fbc-v4-22-on-push
   namespace: nmarsell-tenant
 spec:
   params:
@@ -23,14 +23,14 @@ spec:
   - name: revision
     value: '{{revision}}'
   - name: output-image
-    value: quay.io/redhat-user-workloads-stage/nmarsell-tenant/dokimi-fbc-v5-0:{{revision}}
+    value: quay.io/redhat-user-workloads-stage/nmarsell-tenant/dokimi-fbc-v4-22:{{revision}}
   - name: build-platforms
     value:
     - linux/x86_64
   - name: dockerfile
     value: catalog.Dockerfile
   - name: path-context
-    value: fbc/v5.0
+    value: fbc/v4.22
   pipelineSpec:
     description: |
       This pipeline is ideal for building and verifying [file-based catalogs](https://konflux-ci.dev/docs/end-to-end/building-olm/#building-the-file-based-catalog).
@@ -398,7 +398,7 @@ spec:
     - name: netrc
       optional: true
   taskRunTemplate:
-    serviceAccountName: build-pipeline-dokimi-fbc-v5-0
+    serviceAccountName: build-pipeline-dokimi-fbc-v4-22
   workspaces:
   - name: git-auth
     secret:
