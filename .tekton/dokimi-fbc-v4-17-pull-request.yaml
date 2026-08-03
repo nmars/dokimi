@@ -431,13 +431,21 @@ spec:
       - build-image-index
       taskRef:
         params:
+        - name: url
+          value: https://github.com/nmars/konflux-operator-tasks.git
+        - name: revision
+          value: test-KFLUXSPRT-8535-tasks
+        - name: token
+          value: tekton-git
+        - name: tokenKey
+          value: password
+        - name: pathInRepo
+          value: task/fbc-fips-check-oci-ta/0.1/fbc-fips-check-oci-ta.yaml
         - name: name
           value: fbc-fips-check-oci-ta
-        - name: bundle
-          value: quay.io/konflux-ci/tekton-catalog/task-fbc-fips-check-oci-ta:0.1@sha256:935adb61a5c9be0f619edc8838771ad3fe08cf17689094aeaaeac493af2a2115
         - name: kind
           value: task
-        resolver: bundles
+        resolver: git
       when:
       - input: $(params.skip-checks)
         operator: in
