@@ -455,7 +455,7 @@ spec:
         - name: url
           value: https://github.com/nmars/konflux-operator-tasks.git
         - name: revision
-          value: main
+          value: KFLUXSPRT-9140-tasks
         - name: token
           value: builddefs-fork
         - name: tokenKey
