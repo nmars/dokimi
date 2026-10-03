@@ -349,7 +349,7 @@ spec:
       taskRef:
         params:
         - name: url
-          value: https://github.com/nmars/build-definitions.git
+          value: https://github.com/nmars/konflux-operator-tasks.git
         - name: revision
           value: main
         - name: token
@@ -357,7 +357,7 @@ spec:
         - name: tokenKey
           value: password
         - name: pathInRepo
-          value: task/validate-fbc/0.1/validate-fbc.yaml
+          value: task/validate-fbc/0.3/validate-fbc.yaml
         - name: name
           value: validate-fbc
         - name: kind
@@ -383,7 +383,7 @@ spec:
       taskRef:
         params:
         - name: url
-          value: https://github.com/nmars/build-definitions.git
+          value: https://github.com/nmars/konflux-operator-tasks.git
         - name: revision
           value: main
         - name: token
@@ -415,7 +415,7 @@ spec:
       taskRef:
         params:
         - name: url
-          value: https://github.com/nmars/build-definitions.git
+          value: https://github.com/nmars/konflux-operator-tasks.git
         - name: revision
           value: main
         - name: token
